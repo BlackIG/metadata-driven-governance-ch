@@ -215,15 +215,7 @@ To execute the generated DDL against ClickHouse Cloud:
 docker compose run --rm dbt python -m utils.main --execute
 ```
 
-If you ran an earlier version of this project, remove the old combined
-Subscribers masking policies once before applying the new column-level policies:
-
-```sql
-DROP MASKING POLICY IF EXISTS subscribers_stg_subscribers_tenant_1_masking_policy;
-DROP MASKING POLICY IF EXISTS subscribers_stg_subscribers_tenant_2_masking_policy;
-```
-
-Then run the access builder command again.
+If you ran an earlier version of this project, remove the old policies by runing `DROP` commands on the sql console, before applying new ones. Then run the access builder command again.
 
 The command creates or updates:
 
