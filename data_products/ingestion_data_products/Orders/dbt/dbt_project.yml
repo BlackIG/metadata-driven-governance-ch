@@ -1,0 +1,49 @@
+name: 'orders'
+version: '1.0.0'
+config-version: 2
+profile: 'orders'
+seed-paths: ["seeds"]
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "logs"
+
+seeds:
+  orders:
+    +schema: raw
+    raw_tenant_1_orders:
+      +column_types:
+        OrderId: UInt64
+        UserId: UInt64
+        OrderDate: Date
+        Quantity: UInt32
+        UnitPrice: Float64
+    raw_tenant_2_orders:
+      +column_types:
+        OrderId: UInt64
+        UserId: UInt64
+        OrderDate: Date
+        Quantity: UInt32
+        UnitPrice: Float64
+    raw_tenant_3_orders:
+      +column_types:
+        OrderId: UInt64
+        UserId: UInt64
+        OrderDate: Date
+        Quantity: UInt32
+        UnitPrice: Float64
+
+models:
+  orders:
+    staging:
+      +schema: staging
+    +persist_docs:
+      relation: true
+      columns: true
+
+data_tests:
+  +severity: error
+  +store_failures: true
+  +schema: "{{ env_var('DBT_TEST_AUDIT_SCHEMA', 'staging_test_failures') }}"

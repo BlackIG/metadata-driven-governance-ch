@@ -1,0 +1,107 @@
+version: 2
+
+models:
+  - name: subscriber_order_summary
+    description: >-
+      Tenant-aware mart with one row per subscriber and aggregated order activity.
+      The model joins ingestion staging models and retains selected identity fields
+      for controlled reporting use.
+    config:
+      materialized: table
+      engine: MergeTree()
+      order_by: (tenant_code, user_id)
+      on_schema_change: "append_new_columns"
+      contract:
+        enforced: true
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - tenant_code
+              - user_id
+
+    columns:
+      - name: tenant_code
+        data_type: UInt8
+        description: Tenant code used for row-level access control.
+        tests:
+          - not_null
+
+      - name: user_id
+        data_type: UInt64
+        description: Subscriber identifier used to join order activity.
+        tests:
+          - not_null
+
+      - name: tenant_key
+        data_type: LowCardinality(String)
+        description: Stable tenant label for reporting and diagnostics.
+
+      - name: username
+        data_type: String
+        description: >-
+          Personal identifiable information. Subscriber username retained for
+          controlled reporting and must not be divulged outside approved use.
+        meta:
+          masking:
+            tags:
+              - pii
+
+      - name: name
+        data_type: String
+        description: >-
+          Personal identifiable information. Subscriber name retained for
+          controlled reporting and must not be divulged outside approved use.
+
+      - name: company_email
+        data_type: String
+        description: >-
+          Subscriber company email retained for controlled reporting.
+        meta:
+          masking:
+            tags:
+              - sensitive
+
+      - name: timezone
+        data_type: LowCardinality(String)
+        description: Tenant timezone associated with the subscriber.
+
+      - name: total_orders
+        data_type: UInt64
+        description: Number of orders recorded for the subscriber.
+
+      - name: completed_orders
+        data_type: UInt64
+        description: Number of completed orders for the subscriber.
+
+      - name: cancelled_orders
+        data_type: UInt64
+        description: Number of cancelled orders for the subscriber.
+
+      - name: total_units
+        data_type: UInt64
+        description: Total quantity of units ordered by the subscriber.
+
+      - name: gross_order_value
+        data_type: Float64
+        description: Sum of order totals for the subscriber.
+
+      - name: average_order_value
+        data_type: Float64
+        description: Average order total for the subscriber.
+
+      - name: first_order_date
+        data_type: Date
+        description: Date of the subscriber's first recorded order.
+
+      - name: last_order_date
+        data_type: Date
+        description: Date of the subscriber's most recent recorded order.
+
+      - name: latest_order_status
+        data_type: LowCardinality(String)
+        description: Status of the most recent order by order date.
+
+      - name: loaded_at
+        data_type: DateTime
+        description: Timestamp when the mart row was generated.

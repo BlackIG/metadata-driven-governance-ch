@@ -1,0 +1,23 @@
+name: 'subscriber_order_summary'
+version: '1.0.0'
+config-version: 2
+profile: 'subscriber_order_summary'
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "logs"
+
+models:
+  subscriber_order_summary:
+    mart:
+      +schema: mart
+    +persist_docs:
+      relation: true
+      columns: true
+
+data_tests:
+  +severity: error
+  +store_failures: true
+  +schema: "{{ env_var('DBT_TEST_AUDIT_SCHEMA', 'mart_test_failures') }}"

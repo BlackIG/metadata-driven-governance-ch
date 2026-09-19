@@ -1,0 +1,64 @@
+{
+  "mcpServers": {
+    "clickhouse-tenant-1": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp-clickhouse",
+        "--python",
+        "3.12",
+        "mcp-clickhouse"
+      ],
+      "env": {
+        "CLICKHOUSE_HOST": "your-service-host.region.aws.clickhouse.cloud",
+        "CLICKHOUSE_PORT": "8443",
+        "CLICKHOUSE_SECURE": "true",
+        "CLICKHOUSE_VERIFY": "true",
+        "CLICKHOUSE_CONNECT_TIMEOUT": "30",
+        "CLICKHOUSE_USER": "tenant_1_mcp_user",
+        "CLICKHOUSE_PASSWORD": "replace-with-tenant-1-password"
+      }
+    },
+    "clickhouse-tenant-2": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp-clickhouse",
+        "--python",
+        "3.12",
+        "mcp-clickhouse"
+      ],
+      "env": {
+        "CLICKHOUSE_HOST": "your-service-host.region.aws.clickhouse.cloud",
+        "CLICKHOUSE_PORT": "8443",
+        "CLICKHOUSE_SECURE": "true",
+        "CLICKHOUSE_VERIFY": "true",
+        "CLICKHOUSE_CONNECT_TIMEOUT": "30",
+        "CLICKHOUSE_USER": "tenant_2_mcp_user",
+        "CLICKHOUSE_PASSWORD": "replace-with-tenant-2-password"
+      }
+    },
+    "clickhouse-tenant-3": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp-clickhouse",
+        "--python",
+        "3.12",
+        "mcp-clickhouse"
+      ],
+      "env": {
+        "CLICKHOUSE_HOST": "your-service-host.region.aws.clickhouse.cloud",
+        "CLICKHOUSE_PORT": "8443",
+        "CLICKHOUSE_SECURE": "true",
+        "CLICKHOUSE_VERIFY": "true",
+        "CLICKHOUSE_CONNECT_TIMEOUT": "30",
+        "CLICKHOUSE_USER": "tenant_3_mcp_user",
+        "CLICKHOUSE_PASSWORD": "replace-with-tenant-3-password"
+      }
+    }
+  }
+}

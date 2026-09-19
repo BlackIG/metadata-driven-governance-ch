@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: >-
+      Tenant-aware staging model for order records. It combines configured tenant
+      order sources, calculates the order total, and adds tenant and timezone
+      metadata for downstream reporting.
+    config:
+      materialized: table
+      engine: MergeTree()
+      order_by: (tenant_code, user_id, order_id)
+      on_schema_change: "append_new_columns"
+      contract:
+        enforced: true
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - tenant_code
+              - order_id
+
+    columns:
+      - name: order_id
+        data_type: UInt64
+        description: Order identifier from the source system.
+        tests:
+          - not_null
+
+      - name: user_id
+        data_type: UInt64
+        description: Subscriber identifier associated with the order.
+        tests:
+          - not_null
+
+      - name: order_date
+        data_type: Date
+        description: Calendar date on which the order was placed.
+
+      - name: product_name
+        data_type: String
+        description: Product or service included in the order.
+
+      - name: quantity
+        data_type: UInt32
+        description: Number of units included in the order.
+
+      - name: unit_price
+        data_type: Float64
+        description: Price of one unit in the source system currency.
+
+      - name: order_status
+        data_type: LowCardinality(String)
+        description: Current lifecycle status of the order.
+
+      - name: total_amount
+        data_type: Float64
+        description: Calculated order value as quantity multiplied by unit price.
+
+      - name: tenant_key
+        data_type: LowCardinality(String)
+        description: Stable tenant label added during staging.
+
+      - name: tenant_code
+        data_type: UInt8
+        description: Tenant code assigned by the staging configuration.
+        tests:
+          - not_null
+
+      - name: timezone
+        data_type: LowCardinality(String)
+        description: Configured timezone associated with the tenant.
+
+      - name: loaded_at
+        data_type: DateTime
+        description: Timestamp when the staging row is generated.

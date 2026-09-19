@@ -1,0 +1,11 @@
+orders:
+  target: cloud
+  outputs:
+    cloud:
+      type: clickhouse
+      schema: raw
+      host: "{{ env_var('CLICKHOUSE_CLOUD_HOST') }}"
+      port: "{{ env_var('CLICKHOUSE_CLOUD_PORT') | int }}"
+      user: "{{ env_var('CLICKHOUSE_CLOUD_USER') }}"
+      password: "{{ env_var('CLICKHOUSE_CLOUD_PASSWORD') }}"
+      secure: "{{ env_var('CLICKHOUSE_CLOUD_SECURE') == 'true' }}"

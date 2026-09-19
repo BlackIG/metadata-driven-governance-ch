@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw_tenants
+    schema: raw
+    tables:
+      - name: raw_tenant_1_orders
+      - name: raw_tenant_2_orders
+      - name: raw_tenant_3_orders

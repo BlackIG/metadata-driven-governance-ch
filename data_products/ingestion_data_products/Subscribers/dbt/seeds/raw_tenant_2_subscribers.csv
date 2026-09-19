@@ -1,0 +1,4 @@
+UserId,Username,TenantId,Phone,CompanyEmail,Name,NationalId,Address,DateOfBirth,Age,Salary
+2001,wangari.maathai,2,+2547010002001,wangari.maathai@tenant2.example,Wangari Maathai,NID-T2-2001,"7 Kenyatta Avenue, Nairobi",1940-04-01,62,73000.00
+2002,chinua.achebe,2,+2348020002002,chinua.achebe@tenant2.example,Chinua Achebe,NID-T2-2002,"16 Zik Avenue, Enugu",1930-11-16,55,69000.00
+2003,amina.mohamed,2,+2547010002003,amina.mohamed@tenant2.example,Amina Mohamed,NID-T2-2003,"31 Moi Street, Mombasa",1975-10-05,48,81000.00

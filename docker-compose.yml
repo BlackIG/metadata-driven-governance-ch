@@ -1,0 +1,21 @@
+services:
+  dbt:
+    build: .
+    container_name: dbt-demo
+    environment:
+      - PYTHONPATH=/usr/app
+      - CLICKHOUSE_CLOUD_HOST=${CLICKHOUSE_CLOUD_HOST:-}
+      - CLICKHOUSE_CLOUD_PORT=${CLICKHOUSE_CLOUD_PORT:-8443}
+      - CLICKHOUSE_CLOUD_SECURE=${CLICKHOUSE_CLOUD_SECURE:-true}
+      - CLICKHOUSE_CLOUD_USER=${CLICKHOUSE_CLOUD_USER:-}
+      - CLICKHOUSE_CLOUD_PASSWORD=${CLICKHOUSE_CLOUD_PASSWORD:-}
+      - CLICKHOUSE_MCP_PASSWORD_TENANT_1=${CLICKHOUSE_MCP_PASSWORD_TENANT_1:-}
+      - CLICKHOUSE_MCP_PASSWORD_TENANT_2=${CLICKHOUSE_MCP_PASSWORD_TENANT_2:-}
+      - CLICKHOUSE_MCP_PASSWORD_TENANT_3=${CLICKHOUSE_MCP_PASSWORD_TENANT_3:-}
+    volumes:
+      - ./data_products:/usr/app/data_products
+      - ./utils:/usr/app/utils
+      - ./user_tests:/usr/app/user_tests
+    working_dir: /usr/app/data_products
+    tty: true
+

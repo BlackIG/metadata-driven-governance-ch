@@ -1,0 +1,37 @@
+---
+version: "1.00"
+data_product:
+  id: "orders"
+  domain: "engineering"
+  description: "The orders data product contains tenant-scoped order activity linked to subscriber identifiers."
+  data_product_type: "staging"
+  tags:
+    - "orders"
+  owner_steward:
+    name: "Ikechukwu Chilaka"
+    email: "chilaka.ig@gmail.com"
+  data_assets:
+    - name: "stg_orders"
+      description: "Tenant-aware staging table for order records."
+      data_asset_type: "table"
+      database: "staging"
+      schema: "./dbt/models/staging/orders.yml"
+      transformer: "./dbt/models/staging/stg_orders.sql"
+      access:
+        - tenant_code: 1
+          users:
+            - name: tenant_1_mcp_user
+              is_machine_user: true
+              is_masked: false
+        - tenant_code: 2
+          users:
+            - name: tenant_2_mcp_user
+              is_machine_user: true
+              is_masked: false
+        - tenant_code: 3
+          users:
+            - name: tenant_3_mcp_user
+              is_machine_user: true
+              is_masked: false
+  transformations:
+    - "./dbt/"

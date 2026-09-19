@@ -1,0 +1,40 @@
+---
+version: "1.00"
+data_product:
+  id: "subscribers"
+  domain: "engineering"
+  description: "The subscribers data product contains information about users subscribed to the service."
+  data_product_type: "staging"
+  tags:
+    - "subscribers"
+  owner_steward:
+    name: "Ikechukwu Chilaka"
+    email: "chilaka.ig@gmail.com"
+  data_assets:
+    - name: "stg_subscribers"
+      description: "Staging table for subscribers data."
+      data_asset_type: "table"
+      database: "staging"
+      schema: "./dbt/models/staging/subscribers.yml"
+      transformer: "./dbt/models/staging/stg_subscribers.sql"
+      access:
+        - tenant_code: 1
+          users:
+            - name: tenant_1_mcp_user
+              is_machine_user: true
+              is_masked: true
+
+        - tenant_code: 2
+          users:
+            - name: tenant_2_mcp_user
+              is_machine_user: true
+              is_masked: true
+
+        - tenant_code: 3
+          users:
+            - name: tenant_3_mcp_user
+              is_machine_user: true
+              is_masked: false
+
+  transformations:
+    - "./dbt/"

@@ -1,0 +1,38 @@
+---
+version: "1.00"
+data_product:
+  id: "subscriber_order_summary"
+  domain: "engineering"
+  description: "The subscriber order summary mart provides tenant-scoped order aggregates per subscriber for reporting and analysis."
+  data_product_type: "mart"
+  tags:
+    - "mart"
+    - "subscriber_order_summary"
+  owner_steward:
+    name: "Ikechukwu Chilaka"
+    email: "chilaka.ig@gmail.com"
+  data_assets:
+    - name: "subscriber_order_summary"
+      description: "One row per tenant subscriber with order activity aggregates and selected identity fields."
+      data_asset_type: "table"
+      database: "mart"
+      schema: "./dbt/models/mart/subscriber_order_summary.yml"
+      transformer: "./dbt/models/mart/subscriber_order_summary.sql"
+      access:
+        - tenant_code: 1
+          users:
+            - name: tenant_1_mcp_user
+              is_machine_user: true
+              is_masked: false
+        - tenant_code: 2
+          users:
+            - name: tenant_2_mcp_user
+              is_machine_user: true
+              is_masked: false
+        - tenant_code: 3
+          users:
+            - name: tenant_3_mcp_user
+              is_machine_user: true
+              is_masked: false
+  transformations:
+    - "./dbt/"

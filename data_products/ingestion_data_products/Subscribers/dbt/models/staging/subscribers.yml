@@ -1,0 +1,171 @@
+version: 2
+
+models:
+  - name: stg_subscribers
+    description: >-
+      Tenant-aware staging model for subscriber records. The model combines the
+      configured tenant subscriber sources into one ClickHouse table, normalizes
+      the source values, and adds the tenant key and timezone used by downstream
+      models. This is a light transformation layer; business rules and reporting
+      logic should be applied later in the mart layer.
+    config:
+      materialized: table
+      engine: MergeTree()
+      order_by: (tenant_code, user_id)
+      on_schema_change: "append_new_columns"
+      contract:
+        enforced: true
+    tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - tenant_code
+              - user_id
+
+    columns:
+      - name: user_id
+        data_type: UInt64
+        description: >-
+          Numeric subscriber identifier from the source system. Invalid or
+          missing source values are converted to 0 during staging.
+        tests:
+          - not_null
+
+      - name: username
+        data_type: String
+        description: >-
+          Login or account name supplied by the source system for the subscriber.
+          It is retained as text for identity and contact workflows; blank values
+          are standardized to the literal NO_VALUE during staging.
+
+      - name: source_tenant_code
+        data_type: UInt8
+        description: >-
+          Tenant identifier recorded by the source system before the staging
+          tenant mapping is applied. Invalid or missing values are converted to 0.
+        tests:
+          - not_null
+
+      - name: phone
+        data_type: String
+        description: >-
+          Subscriber telephone number as supplied by the source system. It is
+          retained as text so country prefixes, separators, and leading characters
+          are preserved; blank values are standardized to NO_VALUE.
+        meta:
+          masking:
+            tags:
+              - pii
+            format: phone
+
+      - name: company_email
+        data_type: String
+        description: >-
+          Subscriber's business email address used for company communication and
+          account identification. Blank values are standardized to NO_VALUE while
+          preserving the original address format for valid values.
+        meta:
+          masking:
+            tags:
+              - sensitive
+            format: email
+
+      - name: name
+        data_type: String
+        description: >-
+          Subscriber's display or full name as recorded by the source system. It
+          supports personalization and identity resolution and is retained as text;
+          blank values are standardized to NO_VALUE.
+        meta:
+          masking:
+            tags:
+              - pii
+            format: name          
+
+      - name: national_id
+        data_type: String
+        description: >-
+          Government-issued or organization-issued national identification value
+          for the subscriber. It is retained as text to avoid losing formatting or
+          leading zeroes; blank values are standardized to NO_VALUE.
+        meta:
+          masking:
+            tags:
+              - pii
+
+      - name: address
+        data_type: String
+        description: >-
+          Residential or mailing address associated with the subscriber. The value
+          may contain street, locality, region, and postal details and is retained
+          as text for delivery, verification, and customer-support workflows;
+          blank values are standardized to NO_VALUE.
+        meta:
+          masking:
+            tags:
+              - pii
+            format: address     
+
+      - name: date_of_birth
+        data_type: Date
+        description: >-
+          Calendar date on which the subscriber was born. It supports age checks,
+          eligibility rules, and demographic analysis; invalid or missing source
+          values are converted to the sentinel date 1970-01-01 during staging.
+        meta:
+          masking:
+            tags:
+              - pii
+
+      - name: age
+        data_type: UInt8
+        description: >-
+          Subscriber age in completed years as supplied or derived by the source
+          system. It is stored as a non-negative integer for segmentation and
+          eligibility logic; invalid or missing values are converted to 0.
+        meta:
+          masking:
+            tags:
+              - pii
+
+      - name: salary
+        data_type: Float64
+        description: >-
+          Subscriber compensation amount from the source system, represented as a
+          floating-point value for analytical use. The source currency is not
+          inferred by this staging model; invalid or missing values are converted
+          to 0.0.
+        meta:
+          masking:
+            tags:
+              - sensitive
+
+      - name: tenant_key
+        data_type: LowCardinality(String)
+        description: >-
+          Stable, human-readable tenant label generated from the configured tenant
+          code, for example tenant_1, tenant_2, or tenant_3. It is intended for
+          tenant-aware joins, diagnostics, and row-level filtering.
+
+      - name: tenant_code
+        data_type: UInt8
+        description: >-
+          Numeric tenant code assigned by the staging configuration rather than
+          trusted directly from the source record. Combined with user_id, it
+          identifies a subscriber within the shared multi-tenant staging table and
+          is used by row-level access policies.
+        tests:
+          - not_null
+
+      - name: timezone
+        data_type: LowCardinality(String)
+        description: >-
+          IANA-style timezone or configured timezone label associated with the
+          tenant. It is added as metadata for downstream timestamp handling.
+
+      - name: loaded_at
+        data_type: DateTime
+        description: >-
+          Timestamp recorded when the staging row is generated. It provides an
+          operational audit point for freshness checks, reload diagnostics, and
+          downstream data lineage.

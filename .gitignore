@@ -1,0 +1,68 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache and tooling
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging and build output
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# dbt generated artifacts
+**/dbt/target/
+**/dbt/logs/
+**/dbt/dbt_packages/
+**/dbt/.user.yml
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local databases and generated data
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.parquet
+
+# Docker and local tooling
+.docker/
+docker-compose.override.yml
+
+#dbt artifacts
+target/
+dbt_packages/
+dbt_modules/
+logs/
+.user.yml

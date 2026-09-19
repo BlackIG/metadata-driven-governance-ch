@@ -1,0 +1,43 @@
+name: 'data_security_demo'
+version: '1.0.0'
+config-version: 2
+profile: 'data_security_demo'
+seed-paths: ["seeds"]
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "logs"
+
+seeds:
+  data_security_demo:
+    +schema: raw
+    raw_tenant_1_subscribers:
+      +column_types:
+        Phone: String
+        NationalId: String
+        Salary: Float64
+    raw_tenant_2_subscribers:
+      +column_types:
+        Phone: String
+        NationalId: String
+        Salary: Float64
+    raw_tenant_3_subscribers:
+      +column_types:
+        Phone: String
+        NationalId: String
+        Salary: Float64
+
+models:
+  data_security_demo:
+    staging:
+      +schema: staging
+  +persist_docs:
+    relation: true
+    columns: true      
+
+data_tests:
+  +severity: error
+  +store_failures: true
+  +schema: "{{ env_var('DBT_TEST_AUDIT_SCHEMA', 'staging_test_failures') }}"

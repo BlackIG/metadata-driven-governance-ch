@@ -1,0 +1,5 @@
+UserId,Username,TenantId,Phone,CompanyEmail,Name,NationalId,Address,DateOfBirth,Age,Salary
+1001,ada.lovelace,1,+2348010001001,ada.lovelace@tenant1.example,Ada Lovelace,NID-T1-1001,"14 Marina Road, Lagos",1815-12-10,28,85000.00
+1002,grace.hopper,1,+2348010001002,grace.hopper@tenant1.example,Grace Hopper,NID-T1-1002,"22 Independence Avenue, Abuja",1906-12-09,37,92000.00
+1003,alan.turing,1,+2348010001003,alan.turing@tenant1.example,Alan Turing,NID-T1-1003,"8 Herbert Macaulay Way, Lagos",1912-06-23,41,78000.00
+1004,katherine.johnson,1,+2348010001004,katherine.johnson@tenant1.example,Katherine Johnson,NID-T1-1004,"5 Airport Road, Kano",1918-08-26,35,88000.00

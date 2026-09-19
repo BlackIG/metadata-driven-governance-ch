@@ -1,0 +1,4 @@
+UserId,Username,TenantId,Phone,CompanyEmail,Name,NationalId,Address,DateOfBirth,Age,Salary
+3001,nelson.mandela,3,+2557110003001,nelson.mandela@tenant3.example,Nelson Mandela,NID-T3-3001,"10 Uhuru Street, Arusha",1918-07-18,45,76000.00
+3002,wangari.kariuki,3,+2557110003002,wangari.kariuki@tenant3.example,Wangari Kariuki,NID-T3-3002,"4 Samora Avenue, Dar es Salaam",1984-03-12,40,64000.00
+3003,amani.kassim,3,+2557110003003,amani.kassim@tenant3.example,Amani Kassim,NID-T3-3003,"19 Boma Road, Dodoma",1991-09-22,32,57000.00
