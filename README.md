@@ -1,4 +1,4 @@
-# Chilaka Data Security Demo
+# Data Security Demo
 
 A tenant-aware ClickHouse data platform demonstrating:
 
