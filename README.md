@@ -10,6 +10,9 @@ A tenant-aware ClickHouse data platform demonstrating:
 - Direct Claude Desktop MCP connections for three tenant users
 - Automated terminal tests for tenant access
 
+## Model Approach
+![model approach image](model-approach.jpg)
+
 ## Architecture
 
 ```text
