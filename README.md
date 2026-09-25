@@ -1,4 +1,4 @@
-# Data Security Demo
+# Metadata Driven Governance Clickhouse
 
 A tenant-aware ClickHouse data platform demonstrating:
 
@@ -63,7 +63,7 @@ Install or create the following before starting:
 Open PowerShell and move to the repository root:
 
 ```powershell
-Set-Location "C:\path\to\data_security_demo"
+Set-Location "C:\path\to\metadata-driven-governance-ch"
 ```
 
 All commands in this README should be run from this directory unless stated otherwise.
